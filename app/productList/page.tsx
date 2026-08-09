@@ -1,0 +1,67 @@
+"use client"
+import { Product } from "@/tsdrills/erp_domain";
+import { useState } from "react";
+import Link from "next/link";
+
+
+export const products: Product[] = [
+  { id: "1", name: "product A", price: 10, stock: 5 },
+  { id: "2", name: "product B", price: 25, stock: 0 },
+  { id: "3", name: "product C", price: 7.5, stock: 20 },
+];
+
+
+export default function ProductsPage() {
+  const [searchTerm, setSearchTerm] = useState("")
+  const [sortBy, setSortBy] = useState<"name" | "price" | "stock">("name")
+  const [quantities, setQuantity] = useState<{ [productId: string]: number }>({})
+
+  function updateQuantity(productId: string, quant: number) {
+    setQuantity((prev) => ({ ...prev, [productId]:quant}))
+  }
+
+  const filteredProd: Product[] = products.filter((product) => product.name.toLowerCase().includes(searchTerm.toLowerCase()))
+  const sortedProd: Product[] = [...filteredProd].sort((a,b) => {if (typeof a[sortBy] === "number" && typeof b[sortBy] === "number") {
+    return a[sortBy] - b[sortBy];
+    }
+    return String(a[sortBy]).localeCompare(String(b[sortBy]));}
+)
+
+  return (
+    <div>
+        <div>
+            <h1>Products</h1>
+
+            <table>
+                <tbody>
+                    <tr>
+                        <td>id</td>
+                        <td>name</td>
+                        <td>price</td>
+                        <td>stock</td>
+                    </tr>
+                    {sortedProd.map((product) => 
+                    <tr key={product.name}>
+                        <td>{product.id}</td>
+                        <td><Link href={"/productList/"+ product.id}>{product.name}</Link></td>
+                        <td>{product.price}</td>
+                        <td>{product.stock}</td>
+                        <td>
+                            <input type="number" min={0} max={product.stock} value={quantities[product.id] ?? 0}
+                            onChange={(e) => updateQuantity(product.id,Number(e.target.value))} />
+                        </td>
+                    </tr>)}
+                </tbody>
+            </table>
+        </div>
+        <div>
+            <input value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} placeholder="Search"/>
+            <select value={sortBy} onChange={(e) => setSortBy(e.target.value as "name" | "price" | "stock")}>
+                <option value="name">Name</option>
+                <option value="price">Price</option>
+                <option value="stock">Stock</option>
+            </select>
+        </div>
+    </div>
+  );
+}
