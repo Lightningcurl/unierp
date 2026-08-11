@@ -2,6 +2,7 @@
 import { Product } from "@/tsdrills/erp_domain";
 import { useState } from "react";
 import Link from "next/link";
+import { Input } from "@/components/Input";
 
 
 export const products: Product[] = [
@@ -55,7 +56,7 @@ export default function ProductsPage() {
             </table>
         </div>
         <div>
-            <input value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} placeholder="Search"/>
+            <Input label="Search" value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} placeholder=" ex: product A"/>
             <select value={sortBy} onChange={(e) => setSortBy(e.target.value as "name" | "price" | "stock")}>
                 <option value="name">Name</option>
                 <option value="price">Price</option>
