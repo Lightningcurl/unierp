@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { Card } from "@/components/Card";
+import { Badge } from "@/components/Badge";
 
 export default function Home() {
   return (
@@ -15,6 +16,7 @@ export default function Home() {
           priority
         />
         <Card category="Revenue">14820</Card>
+        <Badge value="Confirmed" color="[#1AF7B6]"></Badge>
         <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
           <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
             You are catching up{" "}
