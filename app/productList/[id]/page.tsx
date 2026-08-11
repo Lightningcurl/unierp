@@ -5,6 +5,7 @@ import Link from "next/link";
 
 import {products} from "@/app/productList/page"
 import { use } from "react";
+import { Button } from "@/components/Button";
 
 
 export default function ProductPage({ params }: { params: Promise<{ id: string }> }) {
@@ -35,7 +36,7 @@ export default function ProductPage({ params }: { params: Promise<{ id: string }
                     </tr>
                 </tbody>
             </table>
-            <Link href={"/productList"}>Terug</Link>
+            <Link href={"/productList"}><Button variant="primary">Terug </Button></Link>
 
         </div>
     );

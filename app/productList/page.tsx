@@ -2,6 +2,8 @@
 import { Product } from "@/tsdrills/erp_domain";
 import { useState } from "react";
 import Link from "next/link";
+import { Input } from "@/components/Input";
+import { Table } from "@/components/Table";
 
 
 export const products: Product[] = [
@@ -32,30 +34,20 @@ export default function ProductsPage() {
         <div>
             <h1>Products</h1>
 
-            <table>
-                <tbody>
-                    <tr>
-                        <td>id</td>
-                        <td>name</td>
-                        <td>price</td>
-                        <td>stock</td>
-                    </tr>
-                    {sortedProd.map((product) => 
-                    <tr key={product.name}>
-                        <td>{product.id}</td>
-                        <td><Link href={"/productList/"+ product.id}>{product.name}</Link></td>
-                        <td>{product.price}</td>
-                        <td>{product.stock}</td>
-                        <td>
-                            <input type="number" min={0} max={product.stock} value={quantities[product.id] ?? 0}
-                            onChange={(e) => updateQuantity(product.id,Number(e.target.value))} />
-                        </td>
-                    </tr>)}
-                </tbody>
-            </table>
+            <Table labels={["ID", "Name", "Price", "Stock", "Quantity"]} lines={sortedProd}
+                renderRow={(product) => [product.id,<Link href={"/productList/"+ product.id}>{product.name}</Link>,product.price,product.stock,
+                    <input
+                    type="number"
+                    min={0}
+                    max={product.stock}
+                    value={quantities[product.id] ?? 0}
+                    onChange={(e) => updateQuantity(product.id, Number(e.target.value))}
+                    />
+                ]}
+            />
         </div>
         <div>
-            <input value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} placeholder="Search"/>
+            <Input label="Search" value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} placeholder=" ex: product A"/>
             <select value={sortBy} onChange={(e) => setSortBy(e.target.value as "name" | "price" | "stock")}>
                 <option value="name">Name</option>
                 <option value="price">Price</option>
