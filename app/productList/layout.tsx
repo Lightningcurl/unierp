@@ -1,3 +1,4 @@
+import { Skeleton } from "@/components/Skeleton";
 import Link from "next/link";
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
@@ -8,6 +9,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <Link href="/productList">Back</Link>
       </nav>
       {children}
+      <Skeleton></Skeleton>
     </>
   );
 }
