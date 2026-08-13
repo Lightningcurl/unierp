@@ -46,3 +46,9 @@ function lowStock(products: Product[]): Product[] {
     const lowStockProducts: Product[] = products.filter((product) => product.stock <= 5)
     return lowStockProducts
 }
+
+export function stockStatus(product: Product): "out" | "low" | "in" {
+    if (product.stock === 0) return "out"
+    if (product.stock <= 5) return "low"
+    return "in"
+}
