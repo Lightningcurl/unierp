@@ -293,7 +293,7 @@ function UnirsalJourney() {
                   </span>
                 </header>
                 <div className={styles.gmBody}>
-                  <div className={styles.gmField}><span className={styles.gmLabel}>To</span>team@unirsal.co</div>
+                  <div className={styles.gmField}><span className={styles.gmLabel}>To</span> example-john-doe.gnail.com</div>
                   <div className={styles.gmField}><span className={styles.gmLabel}>Cc</span>Bcc</div>
                   <div className={styles.gmSubject}>Subject: Sync moved to Thursday 10:00</div>
                   <div className={styles.gmText}>
@@ -306,7 +306,7 @@ function UnirsalJourney() {
                   <span className={styles.gmSendbtn}>Send</span>
                 </footer>
                 <div className={styles.gmToast}>
-                  <span className={styles.gmTick}>&#10003;</span> Message sent to example-john-do.gnail.com
+                  <span className={styles.gmTick}>&#10003;</span> Message sent to example-john-doe.gnail.com
                 </div>
               </div>
             </div>
