@@ -19,7 +19,7 @@ type OrderLine = {
     unitPrice: number;
 };
 
-type SalesOrder = {
+export type SalesOrder = {
     salesId: string;
     customer: Partner;
     status: OrderStatus;

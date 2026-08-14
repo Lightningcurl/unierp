@@ -1,26 +1,127 @@
-@import "tailwindcss";
+@import 'tailwindcss';
+@import 'tw-animate-css';
+@import 'shadcn/tailwind.css';
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+@custom-variant dark (&:is(.dark *));
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-warning: var(--warning);
+  --color-warning-foreground: var(--warning-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  --font-sans: var(--font-outfit), ui-sans-serif, system-ui, sans-serif;
+
+  /* Fixed type scale — 12 / 14 / 16 / 20 / 24 / 32 / 48. Nothing in between. */
+  --text-xs: 0.75rem;
+  --text-xs--line-height: 1.5;
+  --text-sm: 0.875rem;
+  --text-sm--line-height: 1.5;
+  --text-base: 1rem;
+  --text-base--line-height: 1.5;
+  --text-xl: 1.25rem;
+  --text-xl--line-height: 1.4;
+  --text-2xl: 1.5rem;
+  --text-2xl--line-height: 1.35;
+  --text-stat: 2rem;
+  --text-stat--line-height: 1.2;
+  --text-display: 3rem;
+  --text-display--line-height: 1.1;
+
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+/* Dark mode first — the product is used all day by operations staff. */
+:root {
+  color-scheme: dark;
+  --radius: 0.5rem;
+
+  /* Deep ink background, neutrals do 90% of the work */
+  --background: oklch(0.17 0.012 240);
+  --foreground: oklch(0.96 0.004 240);
+
+  --card: oklch(0.21 0.014 240);
+  --card-foreground: oklch(0.96 0.004 240);
+
+  --popover: oklch(0.21 0.014 240);
+  --popover-foreground: oklch(0.96 0.004 240);
+
+  /* Mint accent — Unirsal's #1AF8B7. Accent = action. */
+  --primary: oklch(0.85 0.17 168);
+  --primary-foreground: oklch(0.2 0.03 200);
+
+  --secondary: oklch(0.27 0.016 240);
+  --secondary-foreground: oklch(0.96 0.004 240);
+
+  --muted: oklch(0.27 0.016 240);
+  --muted-foreground: oklch(0.72 0.012 240);
+
+  --accent: oklch(0.85 0.17 168);
+  --accent-foreground: oklch(0.2 0.03 200);
+
+  /* Red = destructive */
+  --destructive: oklch(0.63 0.2 22);
+  --destructive-foreground: oklch(0.98 0.01 22);
+
+  /* Amber = warning */
+  --warning: oklch(0.78 0.15 75);
+  --warning-foreground: oklch(0.24 0.03 75);
+
+  --border: oklch(1 0 0 / 10%);
+  --input: oklch(1 0 0 / 14%);
+  --ring: oklch(0.85 0.17 168);
+}
+
+.light {
+  color-scheme: light;
+  --background: oklch(0.98 0.004 240);
+  --foreground: oklch(0.2 0.014 240);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.2 0.014 240);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.2 0.014 240);
+  --primary: oklch(0.72 0.15 168);
+  --primary-foreground: oklch(0.99 0.005 168);
+  --secondary: oklch(0.95 0.006 240);
+  --secondary-foreground: oklch(0.2 0.014 240);
+  --muted: oklch(0.95 0.006 240);
+  --muted-foreground: oklch(0.48 0.012 240);
+  --accent: oklch(0.72 0.15 168);
+  --accent-foreground: oklch(0.99 0.005 168);
+  --destructive: oklch(0.58 0.22 25);
+  --destructive-foreground: oklch(0.99 0.01 25);
+  --warning: oklch(0.7 0.15 70);
+  --warning-foreground: oklch(0.99 0.01 70);
+  --border: oklch(0.2 0.01 240 / 12%);
+  --input: oklch(0.2 0.01 240 / 16%);
+  --ring: oklch(0.72 0.15 168);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/60;
   }
-}
-
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  body {
+    @apply bg-background text-foreground;
+  }
 }
