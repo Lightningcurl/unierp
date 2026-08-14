@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import { cn } from '@/lib/utils'
+import { useRouter } from 'next/navigation'
 
 type NavItem = {
   id: string
@@ -18,7 +19,8 @@ const navItems: NavItem[] = [
 ]
 
 export function Sidebar() {
-  const [active, setActive] = useState('dashboard')
+  const [active, setActive] = useState('')
+  const router = useRouter()
 
   return (
     <aside className="sticky top-0 hidden h-svh w-60 shrink-0 self-start border-r border-border bg-card md:flex md:flex-col">
@@ -35,7 +37,7 @@ export function Sidebar() {
             <button
               key={item.id}
               type="button"
-              onClick={() => setActive(item.id)}
+              onClick={() => {setActive(item.id); router.push(item.label.toLowerCase())}}
               aria-current={isActive ? 'page' : undefined}
               className={cn(
                 'rounded-md px-3 py-2 text-left text-sm transition-colors duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring',

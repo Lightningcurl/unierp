@@ -1,0 +1,178 @@
+/* ==================================================================
+   Unirsal landing page — scoped styles.
+   Every selector is either a hashed CSS-Module class or nested under
+   one, so nothing here can reach globals.css and vice versa.
+   ================================================================== */
+
+/* ---------- shell (replaces the old html/body/*,/::selection rules) ---------- */
+.unirsalSite{position:relative;min-height:100dvh;background:#0b0e14;color:#f2f6f8;font-family:var(--font-outfit),"Inter",system-ui,sans-serif;-webkit-font-smoothing:antialiased;overflow-x:clip}
+.unirsalSite *,.unirsalSite *::before,.unirsalSite *::after{box-sizing:border-box}
+.unirsalSite ::selection{background:#1af8b7;color:#06231a}
+
+/* Fixed layer so overscroll bounce stays dark without touching body. */
+.backdrop{position:fixed;inset:0;background:#0b0e14;z-index:-1}
+
+/* ---------- trust band ---------- */
+.unirsalTrust{max-width:1280px;margin:0 auto;padding:64px 32px 32px;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:24px;border-top:1px solid #1e2837}
+.unirsalTrustLead{font-size:16px;font-weight:600;color:#f2f6f8;margin:0}
+.unirsalTrustMarks{display:flex;gap:12px}
+.unirsalTrustMark{display:inline-flex;align-items:center;gap:8px;padding:8px 12px;background:#111722;border:1px solid #1e2837;border-radius:8px;font-weight:600;font-size:14px;color:#f2f6f8}
+.unirsalTrustGlyph{width:20px;height:20px;border-radius:6px;display:grid;place-items:center;background:#1af8b7;color:#06231a;font-weight:700;font-size:11px}
+.unirsalTrustNote{margin:0;font-size:14px;color:#7a8a99;text-align:right}
+
+/* ---------- how it works ---------- */
+.unirsalHow{max-width:1280px;margin:0 auto;padding:64px 32px}
+.unirsalH2{font-size:32px;line-height:1.1;letter-spacing:-.02em;font-weight:600;color:#f2f6f8;margin:0 0 48px}
+.unirsalHowTitle{text-align:center}
+.unirsalHowSteps{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.unirsalHowStep{background:#111722;border:1px solid #1e2837;border-radius:12px;padding:24px;text-align:left}
+.unirsalHowN{font-size:12px;font-weight:600;color:#1af8b7;text-transform:uppercase;letter-spacing:.05em;margin-bottom:16px;display:block}
+.unirsalHowH{font-size:16px;font-weight:700;color:#f2f6f8;margin:0 0 8px}
+.unirsalHowP{font-size:14px;line-height:1.6;color:#a6b1be;margin:0}
+
+/* ---------- feature split ---------- */
+.unirsalFeature{max-width:1280px;margin:0 auto;padding:64px 32px;display:grid;grid-template-columns:1.1fr 1fr;gap:48px;align-items:center;border-top:1px solid #1e2837}
+.unirsalFeaturePanel{background:#111722;border:1px solid #1e2837;border-radius:16px;padding:32px}
+.unirsalFeaturePanel .unirsalH2{margin-bottom:16px}
+.unirsalFeatureTag{display:inline-block;padding:4px 8px;background:#1af8b7;color:#06231a;border-radius:6px;font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:.04em;margin-bottom:16px}
+.unirsalFeatureP{font-size:16px;line-height:1.6;color:#a6b1be}
+.unirsalFeatureList{display:flex;flex-direction:column;gap:24px}
+.unirsalFeatureItem{padding:0 0 0 12px;border-left:2px solid #1af8b7}
+.unirsalFeatureH{font-size:16px;font-weight:700;color:#f2f6f8;margin:0 0 8px}
+.unirsalFeatureItem .unirsalFeatureP{margin:0;color:#a6b1be}
+
+/* ---------- journey runway ---------- */
+.unirsalJourney{position:relative;height:620vh;background:#0b0e14}
+.unirsalJourneyStage{position:sticky;top:0;height:100dvh;min-height:540px;display:grid;grid-template-columns:minmax(0,5fr) minmax(0,6fr);align-items:center;gap:48px;max-width:1280px;margin:0 auto;padding:0 32px;overflow:hidden}
+
+/* copy rail */
+.unirsalJourneyCopy{position:relative;min-height:460px}
+.jChapter{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;max-width:42ch;opacity:0;will-change:transform,opacity}
+.jTitle{font-size:40px;line-height:1.05;letter-spacing:-.02em;font-weight:650;color:#f2f6f8;margin:0 0 16px}
+.jBody{font-size:16px;line-height:1.6;color:#a6b1be;margin:0;max-width:40ch}
+.jCta{position:absolute;inset:auto 0 24px 0;opacity:var(--ph-cta)}
+
+/* Chapter cross-fades. Each is visible from its own phase until the
+   next one starts. Order matters: these must stay AFTER .jChapter. */
+.jChapter1{opacity:calc(1 - var(--ph-asku))}
+.jChapter:nth-child(2){opacity:calc(var(--ph-asku) - var(--ph-draft))}
+.jChapter:nth-child(3){opacity:calc(var(--ph-draft) - var(--ph-send))}
+.jChapter:nth-child(4){opacity:calc(var(--ph-send) - var(--ph-confirm))}
+.jChapter:nth-child(5){opacity:calc(var(--ph-confirm) - var(--ph-cta))}
+
+.btnUnirsal{display:inline-flex;align-items:center;background:#1af8b7;color:#06231a;font-weight:600;font-size:14px;border-radius:8px;padding:10px 16px;text-decoration:none;transition:box-shadow 180ms ease-out,transform 180ms ease-out}
+.btnUnirsal:hover{box-shadow:0 8px 24px -8px rgb(26 248 183 / .4);transform:translateY(-1px)}
+.btnUnirsal:focus-visible{outline:2px solid #1af8b7;outline-offset:3px}
+
+/* phone */
+.unirsalJourneyPhone{display:flex;align-items:center;justify-content:center;min-height:520px}
+.phone{width:min(320px,100%);aspect-ratio:9/19.2;transform:translateY(calc((1 - var(--j-p,1)) * -6px)) scale(calc(0.95 + var(--j-p,1) * .05));will-change:transform}
+.phoneFrame{position:relative;width:100%;height:100%;border-radius:36px;background:linear-gradient(160deg,#3a4552,#232c37);padding:10px;border:1px solid #4a5663;box-shadow:0 30px 70px -30px rgb(0 0 0 / .9),0 0 0 1px rgb(26 248 183 / .18),0 0 44px -8px rgb(26 248 183 / .25),inset 0 1px 0 rgb(255 255 255 / .10)}
+.phoneStatus{display:flex;justify-content:space-between;align-items:center;padding:4px 16px;font-size:11px;color:#a6b1be;letter-spacing:.02em}
+.phoneIcons{display:flex;gap:6px;align-items:center}
+.phoneIcons svg{width:12px;height:12px;display:block}
+.phoneFrame>.wa,.phoneFrame>.gm{position:absolute;left:10px;right:10px;top:36px;bottom:10px;border-radius:26px;overflow:hidden}
+
+/* ---------- WhatsApp face (classic light) ---------- */
+.wa{display:flex;flex-direction:column;color:#111b21;background:#ece5dd;opacity:calc(1 - var(--ph-swap));transform:translateX(calc(var(--ph-swap) * -12px));will-change:opacity,transform}
+.waHead{display:flex;align-items:center;gap:10px;padding:10px 12px;background:#075e54;color:#fff}
+.waBack{display:grid;place-items:center;color:#fff}
+.waBack svg{width:18px;height:18px}
+.waAvatar{width:32px;height:32px;border-radius:50%;background:#128c7e;color:#fff;display:grid;place-items:center;font-weight:650;font-size:14px}
+.waId{display:flex;flex-direction:column;line-height:1.2}
+.waId strong{font-size:14px;font-weight:600}
+.waId small{font-size:12px;color:#b9ddd2}
+.waCall{margin-left:auto;display:grid;place-items:center;color:#cfe8e1}
+.waCall svg{width:16px;height:16px}
+.waChat{flex:1;padding:12px;background-image:radial-gradient(#d6cfc2 1px,transparent 1.4px);background-size:20px 20px;display:flex;flex-direction:column;gap:8px;overflow:hidden}
+.waDay{align-self:center;font-size:11px;background:#fff;padding:2px 10px;border-radius:999px;color:#54656f;box-shadow:0 1px 1px rgb(0 0 0 / .06)}
+.waRow{display:flex}
+.waRowOut{justify-content:flex-end}
+.waBubble{max-width:80%;padding:6px 10px;border-radius:12px 12px 12px 4px;background:#fff;font-size:13px;line-height:1.45;color:#111b21;box-shadow:0 1px 1px rgb(11 27 33 / .08);opacity:0;will-change:opacity,transform}
+.waBubbleOut{border-radius:12px 12px 4px 12px;background:#d9fdd3;color:#111b21}
+.waTyping{display:inline-flex;gap:4px;align-items:center;background:#fff;padding:8px 12px;border-radius:12px 12px 12px 4px;opacity:0;box-shadow:0 1px 1px rgb(11 27 33 / .08)}
+.waTyping i{width:6px;height:6px;border-radius:50%;background:#8ea39b;animation:waBounce 1.2s infinite}
+.waTyping i:nth-child(2){animation-delay:.15s}
+.waTyping i:nth-child(3){animation-delay:.3s}
+@keyframes waBounce{0%,60%,100%{transform:translateY(0);opacity:.5}30%{transform:translateY(-3px);opacity:1}}
+
+/* Message reveals. Nested under .waChat so the data-chat attribute
+   selectors stay scoped to this page. */
+.waChat [data-chat="hello"]{opacity:1;transform:translateY(0)}
+.waChat [data-chat="asku"]{opacity:var(--ph-asku);transform:translateY(calc((1 - var(--ph-asku)) * 10px))}
+.waChat [data-chat="typing"]{opacity:calc(var(--ph-typing) - var(--ph-reply));transform:translateY(calc((1 - (var(--ph-typing) - var(--ph-reply))) * 10px))}
+.waChat [data-chat="reply"]{opacity:var(--ph-reply);transform:translateY(calc((1 - var(--ph-reply)) * 10px))}
+
+.waBar{display:flex;align-items:center;gap:8px;padding:8px 10px;background:#f0f2ee}
+.waPlus{display:grid;place-items:center;color:#54656f}
+.waPlus svg{width:18px;height:18px}
+.waInput{flex:1;background:#fff;border-radius:16px;padding:6px 12px;font-size:12px;color:#8696a0;box-shadow:0 1px 2px rgb(0 0 0 / .04)}
+.waMic{display:grid;place-items:center;color:#54656f}
+.waMic svg{width:18px;height:18px}
+
+/* ---------- Gmail face (light) ---------- */
+.gm{display:flex;flex-direction:column;background:#fff;opacity:var(--ph-swap);transform:translateX(calc((1 - var(--ph-swap)) * 14px));will-change:opacity,transform}
+.gmHead{display:flex;align-items:center;gap:8px;padding:12px;border-bottom:1px solid #eceae2;background:#fff}
+.gmBrand{width:26px;height:26px;border-radius:8px;background:#1af8b7;color:#06231a;display:grid;place-items:center;font-weight:700;font-size:13px}
+.gmTitle{font-size:14px;font-weight:600;color:#202124}
+.gmClose{margin-left:auto;display:grid;place-items:center;color:#5f6368}
+.gmClose svg{width:16px;height:16px}
+.gmBody{flex:1;padding:4px 16px;overflow:hidden}
+.gmField{font-size:14px;color:#202124;padding:8px 0;border-bottom:1px solid #eeece6;display:flex;gap:8px}
+.gmLabel{color:#5f6368;min-width:20px}
+.gmSubject{font-size:14px;font-weight:600;color:#202124;padding:8px 0;border-bottom:1px solid #eeece6;opacity:0}
+.gmText{margin-top:8px;font-size:14px;line-height:1.55;color:#3c4043;opacity:0}
+.gmText p{margin:0 0 8px}
+.gmBar{display:flex;justify-content:flex-end;align-items:center;padding:8px 12px;border-top:1px solid #f0f0ee;background:#fafaf8}
+.gmSendbtn{display:inline-flex;align-items:center;gap:6px;background:#1a73e8;color:#fff;font-size:13px;font-weight:600;padding:8px 14px;border-radius:8px;box-shadow:0 1px 2px rgb(0 0 0 / .2);transition:background 180ms ease-out}
+.gmSendbtn:hover{background:#1765cc}
+.gmToast{position:absolute;left:12px;right:12px;bottom:12px;background:#effaef;border:1px solid #b7e0b7;color:#137333;font-size:13px;padding:10px 12px;border-radius:8px;display:flex;align-items:center;gap:8px;opacity:0;transition:opacity 180ms ease-out}
+.gmTick{display:grid;place-items:center;width:16px;height:16px;border-radius:50%;background:#137333;color:#fff;font-size:10px;font-weight:700}
+
+/* Scroll-driven overrides. Must stay AFTER the base rules above. */
+.gmSubject{opacity:var(--ph-compose)}
+.gmText{opacity:calc(var(--ph-compose) * var(--ph-send))}
+.gmToast{opacity:calc(var(--ph-confirm) * var(--ph-cta))}
+.gmSubject,.gmText{transform:translateY(calc((1 - var(--ph-compose)) * 8px))}
+
+/* ---------- responsive ---------- */
+@media (max-width:860px){
+  .unirsalJourneyStage{grid-template-columns:1fr;grid-template-rows:auto 1fr;gap:8px;padding:0 16px}
+  .unirsalJourneyCopy{min-height:0;height:40%}
+  .jChapter{justify-content:flex-start;padding-top:16px}
+  .jTitle{font-size:28px;margin-bottom:8px}
+  .jBody{font-size:15px}
+  .jCta{inset:auto 0 8px 0}
+  .unirsalJourneyPhone{min-height:0;height:60%}
+  .phone{width:min(250px,78vw)}
+}
+@media (max-width:900px){
+  .unirsalTrust{grid-template-columns:1fr;text-align:center;justify-items:center;padding-left:16px;padding-right:16px}
+  .unirsalTrustNote{text-align:center}
+  .unirsalHow{padding-left:16px;padding-right:16px}
+  .unirsalHowSteps{grid-template-columns:1fr}
+  .unirsalFeature{grid-template-columns:1fr;padding-left:16px;padding-right:16px}
+}
+
+/* ---------- reduced motion ----------
+   Collapses the 620vh runway to a normal static hero and shows only
+   the first chapter. Delete this block to restore the original
+   behaviour (which left the hero blank for these users).            */
+@media (prefers-reduced-motion:reduce){
+  .unirsalJourney{height:auto}
+  .unirsalJourneyStage{position:static;height:auto;min-height:0;padding:96px 32px;grid-template-columns:minmax(0,5fr) minmax(0,6fr);grid-template-rows:none}
+  .unirsalJourneyCopy{min-height:0;height:auto}
+  .jChapter{position:static;inset:auto}
+  .jChapter:nth-child(n+2){display:none}
+  .jChapter1{opacity:1}
+  .jCta{position:static;inset:auto;opacity:1;margin-top:24px}
+  .unirsalJourneyPhone{min-height:0}
+  .waTyping i{animation:none}
+  .gmSendbtn,.gmToast,.gmSubject,.gmText{transition:none}
+  .phone,.wa,.gm,.waBubble{will-change:auto}
+}
+@media (max-width:860px) and (prefers-reduced-motion:reduce){
+  .unirsalJourneyStage{grid-template-columns:1fr;padding:64px 16px}
+  .unirsalJourneyCopy{height:auto}
+  .unirsalJourneyPhone{height:auto;margin-top:32px}
+}
