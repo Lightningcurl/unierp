@@ -1,5 +1,3 @@
-import {SalesOrder} from "@/tsdrills/erp_domain"
-
 export type Trend = 'up' | 'down'
 
 export type MetricTone = 'accent' | 'neutral' | 'warning' | 'destructive'
@@ -15,6 +13,15 @@ export type Metric = {
 }
 
 export type Urgency = 'critical' | 'high' | 'watch'
+
+export type UrgentOrder = {
+  id: string
+  customer: string
+  value: string
+  dueIn: string
+  status: string
+  urgency: Urgency
+}
 
 export const metrics: Metric[] = [
   {
@@ -55,7 +62,7 @@ export const metrics: Metric[] = [
   },
 ]
 
-export const urgentOrders: SalesOrder[] = [
+export const urgentOrders: UrgentOrder[] = [
   {
     id: 'SO-48213',
     customer: 'Northwind Traders',
