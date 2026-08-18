@@ -2,7 +2,11 @@
 
 import { useState } from 'react'
 import { cn } from '@/lib/utils'
-import { useRouter } from 'next/navigation'
+import { useRouter, usePathname } from 'next/navigation'
+import { UserMenu } from '@/components/UserMenu'
+
+const AUTH_ROUTES = ['/login', '/signup']
+const currentUser: string | null = null
 
 type NavItem = {
   id: string
@@ -21,6 +25,11 @@ const navItems: NavItem[] = [
 export function Sidebar() {
   const [active, setActive] = useState('')
   const router = useRouter()
+  const pathname = usePathname()
+
+  if (AUTH_ROUTES.includes(pathname)) {
+    return null
+  }
 
   return (
     <aside className="sticky top-0 hidden h-svh w-60 shrink-0 self-start border-r border-border bg-card md:flex md:flex-col">
@@ -51,6 +60,10 @@ export function Sidebar() {
           )
         })}
       </nav>
+
+      <div className="mt-auto border-t border-border p-4">
+        <UserMenu name={currentUser} direction="up" />
+      </div>
     </aside>
   )
 }
