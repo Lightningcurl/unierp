@@ -23,9 +23,9 @@ const navItems: NavItem[] = [
 ]
 
 export function Sidebar() {
-  const [active, setActive] = useState('')
+  const [active, setActive] = useState('') //if i want to set one of the sidebar panels active
   const router = useRouter()
-  const pathname = usePathname()
+   const pathname = usePathname()
 
   if (AUTH_ROUTES.includes(pathname)) {
     return null
@@ -60,7 +60,7 @@ export function Sidebar() {
           )
         })}
       </nav>
-
+      
       <div className="mt-auto border-t border-border p-4">
         <UserMenu name={currentUser} direction="up" />
       </div>
