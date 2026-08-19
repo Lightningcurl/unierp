@@ -6,11 +6,14 @@ import { useRouter, usePathname } from 'next/navigation'
 import { UserMenu } from '@/components/UserMenu'
 
 const AUTH_ROUTES = ['/login', '/signup']
-const currentUser: string | null = null
 
 type NavItem = {
   id: string
   label: string
+}
+
+type Props = {
+  name: string | null
 }
 
 const navItems: NavItem[] = [
@@ -22,7 +25,7 @@ const navItems: NavItem[] = [
   { id: 'settings', label: 'Settings' },
 ]
 
-export function Sidebar() {
+export function Sidebar({ name }: Props) {
   const [active, setActive] = useState('') //if i want to set one of the sidebar panels active
   const router = useRouter()
    const pathname = usePathname()
@@ -62,7 +65,7 @@ export function Sidebar() {
       </nav>
       
       <div className="mt-auto border-t border-border p-4">
-        <UserMenu name={currentUser} direction="up" />
+        <UserMenu name={name} direction="up" />
       </div>
     </aside>
   )

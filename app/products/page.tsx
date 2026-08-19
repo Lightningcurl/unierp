@@ -4,7 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { Input } from "@/components/Input";
 import { Table } from "@/components/Table";
-import { products } from "@/lib/products";
+import { products } from "@/lib/data/products";
 
 export default function ProductsPage() {
   const [searchTerm, setSearchTerm] = useState("")

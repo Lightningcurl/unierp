@@ -3,7 +3,7 @@ import { Product } from "@/tsdrills/erp_domain";
 import { useState } from "react";
 import Link from "next/link";
 
-import {products} from "@/lib/products"
+import {products} from "@/lib/data/products"
 import { use } from "react";
 import { Button } from "@/components/Button";
 

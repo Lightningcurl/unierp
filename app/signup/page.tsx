@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { Input } from "@/components/Input";
 import { Button } from "@/components/Button";
@@ -13,17 +14,20 @@ type Errors = {
   email?: string;
   password?: string;
   confirmPassword?: string;
+  form?: string;
 };
 
 export default function SignupPage() {
+  const router = useRouter();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [errors, setErrors] = useState<Errors>({});
-  const [submitted, setSubmitted] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [needsEmailConfirmation, setNeedsEmailConfirmation] = useState(false);
 
-  function handleSubmit(e: React.FormEvent) {
+  async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
 
     const nextErrors: Errors = {};
@@ -45,7 +49,34 @@ export default function SignupPage() {
     }
 
     setErrors(nextErrors);
-    setSubmitted(Object.keys(nextErrors).length === 0);
+    if (Object.keys(nextErrors).length > 0) {
+      return;
+    }
+
+    setIsSubmitting(true);
+    try {
+      const res = await fetch("/api/signup", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name, email, password }),
+      });
+      const result = await res.json();
+
+      if (!res.ok) {
+        setErrors({ form: result.error ?? "Could not create account." });
+        return;
+      }
+
+      if (result.needsEmailConfirmation) {
+        setNeedsEmailConfirmation(true);
+      } else {
+        router.push("/dashboard");
+      }
+    } catch {
+      setErrors({ form: "Something went wrong. Please try again." });
+    } finally {
+      setIsSubmitting(false);
+    }
   }
 
   return (
@@ -93,13 +124,21 @@ export default function SignupPage() {
             required
           />
 
-          <Button variant="primary" type="submit" className="w-full">
+          {errors.form && (
+            <p className="text-center text-sm text-destructive">{errors.form}</p>
+          )}
+
+          <Button
+            variant={isSubmitting ? "loading" : "primary"}
+            type="submit"
+            className="w-full"
+          >
             Sign up
           </Button>
 
-          {submitted && (
+          {needsEmailConfirmation && (
             <p className="text-center text-sm text-muted-foreground">
-              This form isn&apos;t connected to a backend yet.
+              Check your email to confirm your account.
             </p>
           )}
         </form>

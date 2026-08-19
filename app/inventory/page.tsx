@@ -1,4 +1,4 @@
-import { products } from "@/lib/products";
+import { products } from "@/lib/data/products";
 import { stockStatus } from "@/tsdrills/erp_domain";
 import { Table } from "@/components/Table";
 import { Badge } from "@/components/Badge";

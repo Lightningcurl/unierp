@@ -3,6 +3,7 @@ import { Outfit } from 'next/font/google'
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { Sidebar } from "@/components/Sidebar";
+import { getCurrentUserProfile } from "@/lib/data/profile";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -24,12 +25,14 @@ export const metadata: Metadata = {
   description: "ERP operations for Unirsal",
 };
 
-export default function RootLayout({ children }: LayoutProps<"/">) {
+export default async function RootLayout({ children }: LayoutProps<"/">) {
+  const name = await getCurrentUserProfile();
+
   return (
     <html lang="en" className={`dark ${outfit.variable}`}>
       <body className="bg-background font-sans antialiased">
         <div className="flex min-h-svh bg-background">
-          <Sidebar />
+          <Sidebar name={name} />
           <div className="flex min-w-0 flex-1 flex-col">{children}</div>
         </div>
       </body>

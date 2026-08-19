@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { ChevronDown, ChevronUp, User } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { createClient } from "@/lib/supabase/client";
 
 type Props = {
   name?: string | null;
@@ -27,7 +28,10 @@ export function UserMenu({ name, direction = "down", className }: Props) {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  function handleLogout() {
+  async function handleLogout() {
+    const supabase = createClient();
+    await supabase.auth.signOut();
+
     setOpen(false);
     router.push("/login");
   }

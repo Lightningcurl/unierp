@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { Input } from "@/components/Input";
 import { Button } from "@/components/Button";
@@ -10,15 +11,17 @@ const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 type Errors = {
   email?: string;
   password?: string;
+  form?: string;
 };
 
 export default function LoginPage() {
+  const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState<Errors>({});
-  const [submitted, setSubmitted] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  function handleSubmit(e: React.FormEvent) {
+  async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
 
     const nextErrors: Errors = {};
@@ -32,7 +35,31 @@ export default function LoginPage() {
     }
 
     setErrors(nextErrors);
-    setSubmitted(Object.keys(nextErrors).length === 0);
+    if (Object.keys(nextErrors).length > 0) {
+      return;
+    }
+
+    setIsSubmitting(true);
+    try {
+      const res = await fetch("/api/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password }),
+      });
+      const result = await res.json();
+
+      if (!res.ok) {
+        setErrors({ form: result.error ?? "Could not log in." });
+        return;
+      }
+
+      router.refresh
+      router.push("/dashboard");
+    } catch {
+      setErrors({ form: "Something went wrong. Please try again." });
+    } finally {
+      setIsSubmitting(false);
+    }
   }
 
   return (
@@ -63,15 +90,17 @@ export default function LoginPage() {
             required
           />
 
-          <Button variant="primary" type="submit" className="w-full">
+          {errors.form && (
+            <p className="text-center text-sm text-destructive">{errors.form}</p>
+          )}
+
+          <Button
+            variant={isSubmitting ? "loading" : "primary"}
+            type="submit"
+            className="w-full"
+          >
             Log in
           </Button>
-
-          {submitted && (
-            <p className="text-center text-sm text-muted-foreground">
-              This form isn&apos;t connected to a backend yet.
-            </p>
-          )}
         </form>
 
         <p className="mt-6 text-center text-sm text-muted-foreground">
