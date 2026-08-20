@@ -1,15 +1,23 @@
 "use client"
 import { Product } from "@/tsdrills/erp_domain";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { Input } from "@/components/Input";
 import { Table } from "@/components/Table";
-import { products } from "@/lib/data/products";
 
 export default function ProductsPage() {
+  const [products, setProducts] = useState<Product[]>([])
+  const [loading, setLoading] = useState(true)
   const [searchTerm, setSearchTerm] = useState("")
   const [sortBy, setSortBy] = useState<"name" | "price" | "stock">("name")
   const [quantities, setQuantity] = useState<{ [productId: string]: number }>({})
+
+  useEffect(() => {
+    fetch("/api/products")
+      .then((res) => res.json())
+      .then((data) => setProducts(data.products ?? []))
+      .finally(() => setLoading(false));
+  }, []);
 
   function updateQuantity(productId: string, quant: number) {
     setQuantity((prev) => ({ ...prev, [productId]:quant}))
@@ -23,29 +31,33 @@ export default function ProductsPage() {
 )
 
   return (
-    <div>
-        <div>
-            <h1>Products</h1>
+    <div className="flex flex-col flex-1 items-start gap-10 bg-zinc-50 p-6 font-sans dark:bg-black">
+        <h1 className="text-stat font-semibold tracking-tight text-foreground">Products</h1>
 
-            <Table labels={["ID", "Name", "Price", "Stock", "Quantity"]} lines={sortedProd}
-                renderRow={(product) => [product.id,<Link href={"/productList/"+ product.id}>{product.name}</Link>,product.price,product.stock,
-                    <input
-                    type="number"
-                    min={0}
-                    max={product.stock}
-                    value={quantities[product.id] ?? 0}
-                    onChange={(e) => updateQuantity(product.id, Number(e.target.value))}
-                    />
-                ]}
-            />
-        </div>
-        <div>
-            <Input label="Search" value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} placeholder=" ex: product A"/>
-            <select value={sortBy} onChange={(e) => setSortBy(e.target.value as "name" | "price" | "stock")}>
-                <option value="name">Name</option>
-                <option value="price">Price</option>
-                <option value="stock">Stock</option>
-            </select>
+        <div className="flex w-full flex-col gap-6">
+            {loading ? (
+                <p>Loading...</p>
+            ) : (
+                <Table labels={["ID", "Name", "Price", "Stock", "Quantity"]} lines={sortedProd}
+                    renderRow={(product) => [product.id,<Link href={"/products/"+ product.id}>{product.name}</Link>,product.price,product.stock,
+                        <input
+                        type="number"
+                        min={0}
+                        max={product.stock}
+                        value={quantities[product.id] ?? 0}
+                        onChange={(e) => updateQuantity(product.id, Number(e.target.value))}
+                        />
+                    ]}
+                />
+            )}
+            <div>
+                <Input label="Search" value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} placeholder=" ex: product A"/>
+                <select value={sortBy} onChange={(e) => setSortBy(e.target.value as "name" | "price" | "stock")}>
+                    <option value="name">Name</option>
+                    <option value="price">Price</option>
+                    <option value="stock">Stock</option>
+                </select>
+            </div>
         </div>
     </div>
   );

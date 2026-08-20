@@ -1,24 +1,28 @@
 "use client"
 import { Product } from "@/tsdrills/erp_domain";
-import { useState } from "react";
+import { useEffect, useState, use } from "react";
 import Link from "next/link";
-
-import {products} from "@/lib/data/products"
-import { use } from "react";
 import { Button } from "@/components/Button";
 
-
 export default function ProductPage({ params }: { params: Promise<{ id: string }> }) {
-    const {id : productId} = use(params)
-    const product: Product | undefined = products.find((prod) => prod.id === productId)
+    const { id: productId } = use(params)
+    const [product, setProduct] = useState<Product | null>(null)
+    const [loading, setLoading] = useState(true)
 
-    console.log("productId:", productId, typeof productId);
-    console.log("products:", products);
+    useEffect(() => {
+        fetch(`/api/products/${productId}`)
+            .then((res) => (res.ok ? res.json() : null))
+            .then((data) => setProduct(data?.product ?? null))
+            .finally(() => setLoading(false));
+    }, [productId]);
+
+    if (loading) {
+        return <p>Loading...</p>;
+    }
 
     if (!product) {
         return <p>Product not found</p>;
     }
-
 
     return (
         <div>
@@ -36,7 +40,7 @@ export default function ProductPage({ params }: { params: Promise<{ id: string }
                     </tr>
                 </tbody>
             </table>
-            <Link href={"/productList"}><Button variant="primary">Terug </Button></Link>
+            <Link href={"/products"}><Button variant="primary">Terug </Button></Link>
 
         </div>
     );

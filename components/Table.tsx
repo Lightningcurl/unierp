@@ -2,11 +2,12 @@ type Props<T> = {
   labels: string[];
   lines: T[];
   renderRow: (item: T) => React.ReactNode[];
+  className?: string;
 };
 
-export function Table<T>({ labels, lines, renderRow }: Props<T>) {
+export function Table<T>({ labels, lines, renderRow, className }: Props<T>) {
   return (
-    <div className="max-h-[70vh] overflow-x-auto overflow-y-auto rounded-lg border border-border bg-card">
+    <div className={`${className ?? "max-h-[70vh]"} overflow-x-auto overflow-y-auto rounded-lg border border-border bg-card`}>
       <table className="w-full text-sm">
         <thead>
           <tr className="sticky top-0 z-10 border-b border-border bg-card">

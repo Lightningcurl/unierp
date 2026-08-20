@@ -1,21 +1,31 @@
+import "server-only";
 import { Product } from "@/tsdrills/erp_domain";
 import { createClient } from "@/lib/supabase/server";
 
-export const products: Product[] = [
-  { id: "1", name: "product A", price: 10, stock: 5 },
-  { id: "2", name: "product B", price: 25, stock: 0 },
-  { id: "3", name: "product C", price: 7.5, stock: 20 },
-];
+export async function getProducts(): Promise<Product[]> {
+    const supabase = await createClient();
+    const { data, error } = await supabase.from("products").select("id, name, price, stock:stock_qty");
 
-// export async function getProducts() {
-//     const supabase = await createClient();
+    if (error) {
+        console.error("could not retrieve products", error);
+        return [];
+    }
 
-//     const { data, error } = await supabase.from("products").select("*");
+    return data;
+}
 
-//     if (error) {
-//         console.error("could not retrieve name", error);
-//         return null;
-//     }
+export async function getProduct(id: string): Promise<Product | null> {
+    const supabase = await createClient();
+    const { data, error } = await supabase
+        .from("products")
+        .select("id, name, price, stock:stock_qty")
+        .eq("id", id)
+        .single();
 
-//      return data;
-//   }
+    if (error) {
+        console.error("could not retrieve product", error);
+        return null;
+    }
+
+    return data;
+}

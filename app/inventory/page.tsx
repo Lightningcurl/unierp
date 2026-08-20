@@ -1,5 +1,6 @@
-import { products } from "@/lib/data/products";
-import { stockStatus } from "@/tsdrills/erp_domain";
+"use client"
+import { useEffect, useState } from "react";
+import { Product, stockStatus } from "@/tsdrills/erp_domain";
 import { Table } from "@/components/Table";
 import { Badge } from "@/components/Badge";
 import { Card } from "@/components/Card";
@@ -19,6 +20,16 @@ const statusColor = {
 };
 
 export default function InventoryPage() {
+  const [products, setProducts] = useState<Product[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetch("/api/products")
+      .then((res) => res.json())
+      .then((data) => setProducts(data.products ?? []))
+      .finally(() => setLoading(false));
+  }, []);
+
   const lowStockProducts = products.filter((product) => stockStatus(product) === "low");
   const outOfStock = products.filter((product) => stockStatus(product) === "out");
 
@@ -41,33 +52,38 @@ export default function InventoryPage() {
   };
 
   return (
-    <div>
-      <h1>Inventory</h1>
+    <div className="flex h-dvh flex-col items-start gap-10 overflow-hidden bg-zinc-50 p-6 font-sans dark:bg-black">
+      <h1 className="text-stat font-semibold tracking-tight text-foreground">Inventory</h1>
 
-      {products.length === 0 ? (
+      {loading ? (
+        <p>Loading...</p>
+      ) : products.length === 0 ? (
         <EmptyState message="No products in inventory" />
       ) : (
-        <>
+        <div className="flex w-full min-h-0 flex-1 flex-col gap-6">
           <div style={{ display: "flex", gap: "16px" }}>
             <Card metric={lowStockMetric} />
             <Card metric={outOfStockMetric} />
           </div>
 
-          <Table
-            labels={["ID", "Name", "Price", "Stock", "Status"]}
-            lines={products}
-            renderRow={(product) => {
-              const status = stockStatus(product);
-              return [
-                product.id,
-                product.name,
-                product.price,
-                product.stock,
-                <Badge key={product.id} value={statusLabel[status]} color={statusColor[status]} />,
-              ];
-            }}
-          />
-        </>
+          <div className="min-h-0 flex-1">
+            <Table
+              className="h-full"
+              labels={["ID", "Name", "Price", "Stock", "Status"]}
+              lines={products}
+              renderRow={(product) => {
+                const status = stockStatus(product);
+                return [
+                  product.id,
+                  product.name,
+                  product.price,
+                  product.stock,
+                  <Badge key={product.id} value={statusLabel[status]} color={statusColor[status]} />,
+                ];
+              }}
+            />
+          </div>
+        </div>
       )}
     </div>
   );
